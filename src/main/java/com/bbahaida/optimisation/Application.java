@@ -1,26 +1,72 @@
 package com.bbahaida.optimisation;
 
-import com.bbahaida.optimisation.genetic.GeneticAlgorithm;
-import com.bbahaida.optimisation.genetic.Population;
+import com.bbahaida.optimisation.graph.bfs.BFS;
+import com.bbahaida.optimisation.graph.common.Vertex;
+import com.bbahaida.optimisation.graph.dfs.DFS;
 
-import static com.bbahaida.optimisation.genetic.Constants.MAX_FITNESS;
+import java.time.Duration;
+import java.time.Instant;
 
 public class Application {
 
     public static void main(String[] args) {
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
-        Population population = new Population(100);
-        population.initialize();
+        traverseWithDFS(getGraph(), "C");
+        System.out.println("---------------------------------");
+        traverseWithBFS(getGraph(), "C");
+    }
 
-        int generationCount = 0;
+    private static void traverseWithBFS(Vertex graph, String search) {
+        BFS bfs = new BFS();
 
-        while (population.getFittestIndividual().getFitness() < MAX_FITNESS) {
-            ++generationCount;
-            System.out.println(String.format("Generation: %d - fittest: %d", generationCount, population.getFittestIndividual().getFitness()));
-            System.out.println(population.getFittestIndividual());
-            population = geneticAlgorithm.evolvePopulation(population);
-        }
-        System.out.println("Solution found");
-        System.out.println(population.getFittestIndividual());
+        bfs.traverse(graph, search);
+    }
+
+    private static void traverseWithDFS(Vertex graph, String search) {
+        DFS dfs = new DFS();
+
+        dfs.traverse(graph, search);
+    }
+
+    private static Vertex getGraph() {
+        Vertex a = new Vertex("A");
+        Vertex b = new Vertex("B");
+        Vertex c = new Vertex("C");
+        Vertex d = new Vertex("D");
+        Vertex e = new Vertex("E");
+        Vertex f = new Vertex("F");
+        Vertex g = new Vertex("G");
+        Vertex h = new Vertex("H");
+
+
+        // A
+        a.addNeighbor(b);
+        a.addNeighbor(f);
+        a.addNeighbor(g);
+
+        // B
+        b.addNeighbor(a);
+        b.addNeighbor(c);
+        b.addNeighbor(d);
+
+        // C
+        c.addNeighbor(b);
+
+        // D
+        d.addNeighbor(b);
+        d.addNeighbor(e);
+
+        // E
+        e.addNeighbor(d);
+
+        // F
+        f.addNeighbor(a);
+
+        // G
+        g.addNeighbor(a);
+        g.addNeighbor(h);
+
+        // H
+        h.addNeighbor(g);
+        return a;
     }
 }
