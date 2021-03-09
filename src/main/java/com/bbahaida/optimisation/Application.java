@@ -4,13 +4,12 @@ import com.bbahaida.optimisation.graph.bfs.BFS;
 import com.bbahaida.optimisation.graph.common.Vertex;
 import com.bbahaida.optimisation.graph.dfs.DFS;
 
-import java.time.Duration;
-import java.time.Instant;
-
 public class Application {
 
     public static void main(String[] args) {
-        traverseWithDFS(getGraph(), "C");
+        traverseWithDFSStack(getGraph(), "C");
+        /*System.out.println("---------------------------------");
+        traverseWithDFS(getGraph(), "C");*/
         System.out.println("---------------------------------");
         traverseWithBFS(getGraph(), "C");
     }
@@ -24,7 +23,13 @@ public class Application {
     private static void traverseWithDFS(Vertex graph, String search) {
         DFS dfs = new DFS();
 
-        dfs.traverse(graph, search);
+        dfs.traverseUsingRecursion(graph, search);
+    }
+
+    private static void traverseWithDFSStack(Vertex graph, String search) {
+        DFS dfs = new DFS();
+
+        dfs.traverseUsingStack(graph, search);
     }
 
     private static Vertex getGraph() {
